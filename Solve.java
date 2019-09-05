@@ -13,7 +13,7 @@ import java.util.Stack;
 
 public class Solve
 {
-    public static int evaluate(String expression)
+    public static int evaluate(String expression)                     //it checks the given expression and tokenize it on basis of spaces
     {
         String str ="";
 
