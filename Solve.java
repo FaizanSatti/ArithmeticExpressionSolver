@@ -26,51 +26,51 @@ public class Solve
             else
                 str+=""+c;
         }
-        char[] tokens = str.toCharArray();
-
+        char[] tokens = str.toCharArray();                                      // Stack for numbers: 'values'
         Stack<Integer> values = new Stack<Integer>();
 
-        Stack<Character> ops = new Stack<Character>();
+        Stack<Character> ops = new Stack<Character>();                         // Stack for Operators: 'ops' 
 
         for (int i = 0; i < tokens.length; i++)
         {
-
+                                                                             // Current token is a number, push it to stack for numbers 
             if (tokens[i] >= '0' && tokens[i] <= '9')
             {
-                StringBuffer sbuf = new StringBuffer();
+                StringBuffer sbuf = new StringBuffer();                       // There may be more than one digits in number 
                 while (i < tokens.length && tokens[i] >= '0' && tokens[i] <= '9')
                     sbuf.append(tokens[i++]);
                 values.push(Integer.parseInt(sbuf.toString()));
             }
-
+                                                                               // Current token is an opening brace, push it to 'ops' 
             else if (tokens[i] == '(')
                 ops.push(tokens[i]);
-
+                                                                               // Closing brace encountered, solve entire brace
             else if (tokens[i] == ')')
             {
                 while (ops.peek() != '(')
                     values.push(applyOp(ops.pop(), values.pop(), values.pop()));
                 ops.pop();
             }
-
+                                                                              // Current token is an operator
             else if (tokens[i] == '+' || tokens[i] == '-' ||
                     tokens[i] == '*' || tokens[i] == '/')
             {
-
+                                                                
                 while (!ops.empty() && hasPrecedence(tokens[i], ops.peek()))
                     values.push(applyOp(ops.pop(), values.pop(), values.pop()));
-
+                                                                              // Push current token to 'ops'.
                 ops.push(tokens[i]);
             }
         }
-
-
+                                                                              // Entire expression has been parsed at this point, apply remaining 
+                                                                              // ops to remaining value
         while (!ops.empty())
             values.push(applyOp(ops.pop(), values.pop(), values.pop()));
 
         return values.pop();
     }
-
+                                                                                // Returns true if 'op2' has higher or same precedence as 'op1', 
+                                                                                // otherwise returns false.
     public static boolean hasPrecedence(char op1, char op2)
     {
         if (op2 == '(' || op2 == ')')
@@ -88,7 +88,8 @@ public class Solve
     }
 
 
-    public static int applyOp(char op, int b, int a)
+    public static int applyOp(char op, int b, int a)                         // A utility method to apply an operator 'op' on operands 'a'  
+    // and 'b'. Return the result. 
     {
         switch (op)
         {
@@ -108,7 +109,7 @@ public class Solve
         return "aaa";
     }
 
-    public static void main(String[] args)
+    public static void main(String[] args)                                      //Main method to run above functionality
     {
 
         String expression1= "1+21/3+3+9/3";
